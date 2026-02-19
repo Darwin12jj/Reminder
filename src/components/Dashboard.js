@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CheckCircle, Inbox, Calendar, Repeat, Flag, CheckCheck, Plus, Search, Trash2 } from 'lucide-react';
+import { animate } from 'animejs';
 import Sidebar from './Sidebar';
 import TaskCard from './TaskCard';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -10,6 +11,15 @@ import './Dashboard.css';
 function Dashboard({ reminders, filter, onFilterChange, onAddClick, onToggleComplete, onToggleFlag, onDelete, onDeleteAllCompleted, customLists, onAddList, onDeleteList, onEdit, userProfile, onEditProfile }) {
   const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
+  
+  const handleAddClick = (e) => {
+    animate(e.currentTarget, {
+      scale: [1, 0.9, 1],
+      duration: 300,
+      ease: 'inOut(2)'
+    });
+    onAddClick();
+  };
   
   const getFilteredReminders = () => {
     let filtered;
@@ -101,7 +111,7 @@ function Dashboard({ reminders, filter, onFilterChange, onAddClick, onToggleComp
                 {t('actions.deleteAll')}
               </button>
             )}
-            <button className="btn-primary" onClick={onAddClick}>
+            <button className="btn-primary" onClick={handleAddClick}>
               <Plus size={20} />
               {t('dashboard.addReminder')}
             </button>

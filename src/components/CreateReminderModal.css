@@ -314,6 +314,47 @@ input:checked + .slider:before {
   border-top: 1px solid #334155;
 }
 
+@media (max-width: 768px) {
+  .modal-container {
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0;
+    max-height: 100vh;
+  }
+
+  .modal-content {
+    max-height: calc(100vh - 140px);
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .calendar-grid {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-header h2 {
+    font-size: 1rem;
+  }
+
+  .form-group label {
+    font-size: 0.75rem;
+  }
+
+  .priority-selector button {
+    font-size: 0.625rem;
+    padding: 0.375rem;
+  }
+
+  .btn-save {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.75rem;
+  }
+}
+
 .btn-cancel {
   padding: 0.625rem 1.5rem;
   font-size: 0.875rem;
@@ -347,4 +388,74 @@ input:checked + .slider:before {
 
 .btn-save:hover {
   background: #0d4ac4;
+}
+
+/* Light mode styles */
+body.light-mode .modal-container {
+  background: white;
+  border-color: #e2e8f0;
+}
+
+body.light-mode .modal-header {
+  border-color: #e2e8f0;
+}
+
+body.light-mode .modal-header h2 {
+  color: #1e293b;
+}
+
+body.light-mode .close-btn {
+  color: #64748b;
+}
+
+body.light-mode .close-btn:hover {
+  background: #f1f5f9;
+}
+
+body.light-mode .form-group label {
+  color: #475569;
+}
+
+body.light-mode .form-group input[type="text"],
+body.light-mode .form-group textarea,
+body.light-mode .form-group select {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  color: #1e293b;
+}
+
+body.light-mode .form-group input:focus,
+body.light-mode .form-group textarea:focus,
+body.light-mode .form-group select:focus {
+  background: white;
+}
+
+body.light-mode .priority-selector {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+body.light-mode .priority-selector button {
+  color: #64748b;
+}
+
+body.light-mode .priority-selector button.active {
+  background: #1e293b;
+  color: white;
+}
+
+body.light-mode .mini-calendar {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+body.light-mode .time-input input {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  color: #1e293b;
+}
+
+body.light-mode .modal-footer {
+  background: #f8fafc;
+  border-color: #e2e8f0;
 }

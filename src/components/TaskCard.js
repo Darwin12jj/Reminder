@@ -1,8 +1,40 @@
 import React from 'react';
 import { Clock, Flag, Trash2, Edit2 } from 'lucide-react';
+import { animate } from 'animejs';
 import './TaskCard.css';
 
 function TaskCard({ reminder, onToggleComplete, onToggleFlag, onDelete, onEdit }) {
+  const cardRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (cardRef.current) {
+      animate(cardRef.current, {
+        translateY: [20, 0],
+        opacity: [0, 1],
+        duration: 600,
+        ease: 'out(3)'
+      });
+    }
+  }, []);
+
+  const handleComplete = () => {
+    animate(cardRef.current, {
+      scale: [1, 0.95, 1],
+      duration: 300,
+      ease: 'inOut(2)',
+      onComplete: () => onToggleComplete(reminder.id)
+    });
+  };
+
+  const handleDelete = () => {
+    animate(cardRef.current, {
+      translateX: [0, -100],
+      opacity: [1, 0],
+      duration: 400,
+      ease: 'in(3)',
+      onComplete: () => onDelete(reminder.id)
+    });
+  };
   const priorityColors = {
     high: 'red',
     medium: 'amber',
@@ -11,11 +43,11 @@ function TaskCard({ reminder, onToggleComplete, onToggleFlag, onDelete, onEdit }
   };
 
   return (
-    <div className={`task-card priority-${reminder.priority}`}>
+    <div ref={cardRef} className={`task-card priority-${reminder.priority}`}>
       <div className="task-header">
         <div 
           className={`checkbox ${reminder.completed ? 'checked' : ''}`}
-          onClick={() => onToggleComplete(reminder.id)}
+          onClick={handleComplete}
         >
           {reminder.completed && <span>✓</span>}
         </div>
@@ -34,7 +66,7 @@ function TaskCard({ reminder, onToggleComplete, onToggleFlag, onDelete, onEdit }
             <Trash2 
               size={20} 
               className="delete-icon"
-              onClick={() => onDelete(reminder.id)}
+              onClick={handleDelete}
             />
           )}
         </div>

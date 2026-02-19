@@ -37,32 +37,39 @@ function App() {
   }, [userProfile]);
 
   useEffect(() => {
+    const notifiedReminders = new Set();
+
     const checkReminders = () => {
       const now = new Date();
       const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
       const currentDate = now.toISOString().split('T')[0];
 
       reminders.forEach(reminder => {
-        if (!reminder.completed && reminder.time === currentTime && reminder.dueDate === currentDate) {
+        const reminderDateTime = new Date(`${reminder.dueDate}T${reminder.time}`);
+        const notificationKey = `${reminder.id}-${reminder.dueDate}-${reminder.time}`;
+        
+        if (!reminder.completed && 
+            now >= reminderDateTime && 
+            now - reminderDateTime < 60000 && 
+            !notifiedReminders.has(notificationKey)) {
           if (Notification.permission === 'granted') {
             new Notification('⏰ Recordatorio', {
               body: `${reminder.title}\n${reminder.notes || ''}`,
               icon: '/favicon.ico',
               tag: reminder.id.toString()
             });
+            notifiedReminders.add(notificationKey);
           }
         }
       });
     };
 
-    // Request notification permission
     if (Notification.permission === 'default') {
       Notification.requestPermission();
     }
 
-    // Check every minute
-    const interval = setInterval(checkReminders, 60000);
-    checkReminders(); // Check immediately
+    const interval = setInterval(checkReminders, 10000);
+    checkReminders();
 
     return () => clearInterval(interval);
   }, [reminders]);

@@ -192,3 +192,48 @@ body.light-mode .setup-footer {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+@media (max-width: 768px) {
+  .setup-modal {
+    max-width: 100%;
+    border-radius: 0;
+    min-height: 100vh;
+  }
+
+  .setup-header {
+    padding: 1.5rem;
+  }
+
+  .setup-content {
+    padding: 1.5rem;
+  }
+
+  .setup-footer {
+    padding: 1rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .setup-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .setup-header p {
+    font-size: 0.75rem;
+  }
+
+  .photo-preview {
+    width: 100px;
+    height: 100px;
+  }
+
+  .upload-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+
+  .setup-footer .btn-save {
+    padding: 0.625rem 2rem;
+    font-size: 0.75rem;
+  }
+}

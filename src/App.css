@@ -21,3 +21,9 @@ body.light-mode {
   height: 100vh;
   display: flex;
 }
+
+@media (max-width: 768px) {
+  .App {
+    flex-direction: column;
+  }
+}

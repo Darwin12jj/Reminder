@@ -1,10 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Save, Clock, ChevronLeft, ChevronRight } from 'lucide-react';
+import { animate } from 'animejs';
 import './CreateReminderModal.css';
 
 function CreateReminderModal({ onClose, onSave, customLists, editingReminder }) {
   const { t } = useTranslation();
+  const modalRef = React.useRef(null);
+
+  useEffect(() => {
+    if (modalRef.current) {
+      animate(modalRef.current, {
+        scale: [0.9, 1],
+        opacity: [0, 1],
+        duration: 400,
+        ease: 'out(3)'
+      });
+    }
+  }, []);
   const today = new Date();
   const [currentDate, setCurrentDate] = useState(today);
   const [selectedDate, setSelectedDate] = useState(
@@ -54,7 +67,7 @@ function CreateReminderModal({ onClose, onSave, customLists, editingReminder }) 
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-container" onClick={e => e.stopPropagation()}>
+      <div ref={modalRef} className="modal-container" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
           <h2>{editingReminder ? 'Edit Reminder' : t('modal.title')}</h2>
           <button className="close-btn" onClick={onClose}>

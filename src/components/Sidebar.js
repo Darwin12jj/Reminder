@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CheckCircle, Inbox, Calendar, Repeat, Flag as FlagIcon, CheckCheck, Plus, Settings, X } from 'lucide-react';
+import { CheckCircle, Inbox, Calendar, Repeat, Flag as FlagIcon, CheckCheck, Plus, Settings, X, Menu } from 'lucide-react';
+import { animate } from 'animejs';
 import './Sidebar.css';
 
 function Sidebar({ reminders, filter, onFilterChange, customLists, onAddList, onDeleteList, userProfile, onEditProfile }) {
@@ -8,6 +9,18 @@ function Sidebar({ reminders, filter, onFilterChange, customLists, onAddList, on
   const [showAddList, setShowAddList] = useState(false);
   const [newListName, setNewListName] = useState('');
   const [selectedColor, setSelectedColor] = useState('blue');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const sidebarRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (isMenuOpen && sidebarRef.current) {
+      animate(sidebarRef.current, {
+        translateX: [-320, 0],
+        duration: 400,
+        ease: 'out(3)'
+      });
+    }
+  }, [isMenuOpen]);
 
   const getInitials = (name) => {
     return name
@@ -41,8 +54,19 @@ function Sidebar({ reminders, filter, onFilterChange, customLists, onAddList, on
   const colors = ['blue', 'orange', 'green', 'purple', 'pink', 'yellow'];
 
   return (
-    <aside className="sidebar">
-      <div className="sidebar-content">
+    <>
+      <button className="hamburger-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <Menu size={24} />
+      </button>
+      
+      {isMenuOpen && <div className="sidebar-overlay" onClick={() => setIsMenuOpen(false)} />}
+      
+      <aside className={`sidebar ${isMenuOpen ? 'open' : ''}`} ref={sidebarRef}>
+        <div className="sidebar-content">
+          <button className="close-menu-btn" onClick={() => setIsMenuOpen(false)}>
+            <X size={24} />
+          </button>
+        
         <div className="app-identity">
           <div className="app-icon">
             <CheckCircle size={20} />
@@ -57,7 +81,7 @@ function Sidebar({ reminders, filter, onFilterChange, customLists, onAddList, on
           <a 
             href="#" 
             className={`nav-item ${filter === 'all' ? 'active' : ''}`}
-            onClick={(e) => { e.preventDefault(); onFilterChange('all'); }}
+            onClick={(e) => { e.preventDefault(); onFilterChange('all'); setIsMenuOpen(false); }}
           >
             <div className="nav-item-left">
               <Inbox size={20} />
@@ -68,7 +92,7 @@ function Sidebar({ reminders, filter, onFilterChange, customLists, onAddList, on
           <a 
             href="#" 
             className={`nav-item ${filter === 'today' ? 'active' : ''}`}
-            onClick={(e) => { e.preventDefault(); onFilterChange('today'); }}
+            onClick={(e) => { e.preventDefault(); onFilterChange('today'); setIsMenuOpen(false); }}
           >
             <div className="nav-item-left">
               <Calendar size={20} />
@@ -79,7 +103,7 @@ function Sidebar({ reminders, filter, onFilterChange, customLists, onAddList, on
           <a 
             href="#" 
             className={`nav-item ${filter === 'scheduled' ? 'active' : ''}`}
-            onClick={(e) => { e.preventDefault(); onFilterChange('scheduled'); }}
+            onClick={(e) => { e.preventDefault(); onFilterChange('scheduled'); setIsMenuOpen(false); }}
           >
             <div className="nav-item-left">
               <Repeat size={20} />
@@ -90,7 +114,7 @@ function Sidebar({ reminders, filter, onFilterChange, customLists, onAddList, on
           <a 
             href="#" 
             className={`nav-item ${filter === 'flagged' ? 'active' : ''}`}
-            onClick={(e) => { e.preventDefault(); onFilterChange('flagged'); }}
+            onClick={(e) => { e.preventDefault(); onFilterChange('flagged'); setIsMenuOpen(false); }}
           >
             <div className="nav-item-left">
               <FlagIcon size={20} />
@@ -101,7 +125,7 @@ function Sidebar({ reminders, filter, onFilterChange, customLists, onAddList, on
           <a 
             href="#" 
             className={`nav-item ${filter === 'completed' ? 'active' : ''}`}
-            onClick={(e) => { e.preventDefault(); onFilterChange('completed'); }}
+            onClick={(e) => { e.preventDefault(); onFilterChange('completed'); setIsMenuOpen(false); }}
           >
             <div className="nav-item-left">
               <CheckCheck size={20} />
@@ -146,7 +170,7 @@ function Sidebar({ reminders, filter, onFilterChange, customLists, onAddList, on
             <a 
               href="#" 
               className={`list-item ${filter === 'work' ? 'active' : ''}`}
-              onClick={(e) => { e.preventDefault(); onFilterChange('work'); }}
+              onClick={(e) => { e.preventDefault(); onFilterChange('work'); setIsMenuOpen(false); }}
             >
               <span className="dot blue"></span>
               <span>{t('lists.work')}</span>
@@ -155,7 +179,7 @@ function Sidebar({ reminders, filter, onFilterChange, customLists, onAddList, on
             <a 
               href="#" 
               className={`list-item ${filter === 'personal' ? 'active' : ''}`}
-              onClick={(e) => { e.preventDefault(); onFilterChange('personal'); }}
+              onClick={(e) => { e.preventDefault(); onFilterChange('personal'); setIsMenuOpen(false); }}
             >
               <span className="dot orange"></span>
               <span>{t('lists.personal')}</span>
@@ -164,7 +188,7 @@ function Sidebar({ reminders, filter, onFilterChange, customLists, onAddList, on
             <a 
               href="#" 
               className={`list-item ${filter === 'shopping' ? 'active' : ''}`}
-              onClick={(e) => { e.preventDefault(); onFilterChange('shopping'); }}
+              onClick={(e) => { e.preventDefault(); onFilterChange('shopping'); setIsMenuOpen(false); }}
             >
               <span className="dot green"></span>
               <span>{t('lists.shopping')}</span>
@@ -178,7 +202,7 @@ function Sidebar({ reminders, filter, onFilterChange, customLists, onAddList, on
                   key={list.name}
                   href="#" 
                   className={`list-item ${filter === list.name ? 'active' : ''}`}
-                  onClick={(e) => { e.preventDefault(); onFilterChange(list.name); }}
+                  onClick={(e) => { e.preventDefault(); onFilterChange(list.name); setIsMenuOpen(false); }}
                 >
                   <span className={`dot ${list.color}`}></span>
                   <span>{list.name}</span>
@@ -210,6 +234,7 @@ function Sidebar({ reminders, filter, onFilterChange, customLists, onAddList, on
         </div>
       </div>
     </aside>
+    </>
   );
 }
 
