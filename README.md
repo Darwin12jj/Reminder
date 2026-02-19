@@ -149,29 +149,6 @@ npm run build
 ```
 Genera la carpeta `build/` lista para desplegar.
 
-## 🚀 Despliegue en GitHub Pages
-
-### 1. Instalar gh-pages
-```bash
-npm install --save-dev gh-pages
-```
-
-### 2. Configurar package.json
-```json
-{
-  "homepage": "https://tu-usuario.github.io/taskmaster-app",
-  "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
-  }
-}
-```
-
-### 3. Desplegar
-```bash
-npm run deploy
-```
-
 ## 📊 Métricas
 
 - **Tamaño del build**: ~1.6 MB
