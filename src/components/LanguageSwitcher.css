@@ -1,0 +1,42 @@
+.language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: #1e293b;
+  border: none;
+  border-radius: 8px;
+  color: #94a3b8;
+  transition: all 0.3s;
+}
+
+body.light-mode .language-switcher {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.language-switcher select {
+  background: none;
+  border: none;
+  color: #f1f5f9;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  padding-right: 0.5rem;
+}
+
+body.light-mode .language-switcher select {
+  color: #1e293b;
+}
+
+.language-switcher select option {
+  background: #1e293b;
+  color: #f1f5f9;
+  padding: 0.5rem;
+}
+
+body.light-mode .language-switcher select option {
+  background: white;
+  color: #1e293b;
+}
